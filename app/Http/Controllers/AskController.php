@@ -12,7 +12,7 @@ class AskController extends Controller {
     public function index() {
         return Inertia::render('Ask/Index', [
             'models' => $this->askService->getModels(),
-            'selectedModel' => $this->askService::DEFAULT_MODEL,
+            'selectedModel' => auth()->user()->favorite_ai ?? $this->askService::DEFAULT_MODEL,
         ]);
     }
 
@@ -45,5 +45,19 @@ class AskController extends Controller {
             'response' => $response,
             'error' => $error,
         ]);
+    }
+
+    public function changeModel(Request $request) {
+        $request->validate([
+            'model' => 'required|string',
+        ]);
+
+        try {
+            auth()->user()->update(['favorite_ai' => $request->model]);
+        } catch (\Exception $e) {
+            return back()->withErrors(['model' => $e->getMessage()]);
+        }
+
+        return back();
     }
 }

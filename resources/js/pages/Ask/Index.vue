@@ -1,6 +1,6 @@
 <script setup>
 import { useForm, Head } from '@inertiajs/vue3'
-import { ask } from '@/actions/App/Http/Controllers/AskController'
+import { ask, changeModel as changeModelRoute } from '@/actions/App/Http/Controllers/AskController'
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue'
 
 
@@ -28,6 +28,10 @@ const handleSubmitEnter = (e) => {
     }
 }
 
+const handleChangeModel = () => {
+    form.post(changeModelRoute())
+}
+
 
 </script>
 
@@ -40,7 +44,7 @@ const handleSubmitEnter = (e) => {
                 Model
             </label>
             <div class="relative">
-                <select v-model="form.model"
+                <select v-model="form.model" @change="handleChangeModel"
                 class="appearance-none bg-white border border-neutral-200 rounded-lg px-4 py-2.5 pr-10 text-sm text-neutral-800 shadow-sm cursor-pointer transition focus:outline-none focus:ring-2 focus:ring-neutral-900 focus:border-transparent hover:border-neutral-400">
                     <option disabled value="">Choose your model</option>
                     <hr />
