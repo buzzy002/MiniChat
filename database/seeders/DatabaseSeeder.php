@@ -22,8 +22,12 @@ class DatabaseSeeder extends Seeder
             'email' => 'test@example.com',
         ]);
 
-        \App\Models\Chat::factory(10)->create([
+        $chat = \App\Models\Chat::factory()->create([
             'user_id' => $user->id,
+        ]);
+
+        \App\Models\Message::factory(5)->create([
+            'chat_id' => $chat->id,
         ]);
     }
 }
