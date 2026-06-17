@@ -1,10 +1,8 @@
 <script setup>
 import { useForm, Head } from '@inertiajs/vue3'
-import { computed } from 'vue'
 import { ask } from '@/actions/App/Http/Controllers/AskController'
-import MarkdownIt from 'markdown-it'
-import hljs from 'highlight.js'
-import 'highlight.js/styles/github-dark.css'
+import MarkdownRenderer from '@/components/MarkdownRenderer.vue'
+
 
 const props = defineProps({
     models: Array,
@@ -30,19 +28,7 @@ const handleSubmitEnter = (e) => {
     }
 }
 
-const md = new MarkdownIt({
-    highlight: function (str, lang) {
-        if(lang && hljs.getLanguage(lang)) {
-            try {
-                return '<pre><code class="hljs">' +
-                    hljs.highlight(str, { language: lang }).value +
-                    '</code></pre>'
-            } catch (__) {}
-        }
-        return ''
-    }
-})
-const rendered = computed(() => md.render(props.response ?? ''))
+
 </script>
 
 <template>
@@ -87,9 +73,8 @@ const rendered = computed(() => md.render(props.response ?? ''))
             </button>
         </div>
 
-
-        <div class="prose prose-neutral max-w-none px-3" v-html="rendered">
-
+        <div class="px-3">
+            <MarkdownRenderer :content="props.response" />
         </div>
 
         <div v-if="props.error" class="text-red-500 p-4 rounded bg-red-50">
