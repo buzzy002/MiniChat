@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { Link, usePage } from '@inertiajs/vue3';
-import { computed } from 'vue'
+import { Link } from '@inertiajs/vue3';
 import {
     SidebarGroup,
     SidebarGroupLabel,
@@ -15,8 +14,6 @@ defineProps<{
     items: NavItem[];
 }>();
 
-const chats = computed(() => usePage().props.chats)
-
 const { isCurrentUrl } = useCurrentUrl();
 </script>
 
@@ -24,11 +21,14 @@ const { isCurrentUrl } = useCurrentUrl();
     <SidebarGroup class="px-2 py-0">
         <SidebarGroupLabel>Platform</SidebarGroupLabel>
         <SidebarMenu>
-            <SidebarMenuItem v-for="item in chats" :key="item.id">
+            <SidebarMenuItem v-for="item in items" :key="item.title">
                 <SidebarMenuButton
                     as-child
-                    :tooltip="item.title">
-                    <Link :href="`/chats/${item.id}`">
+                    :is-active="isCurrentUrl(item.href)"
+                    :tooltip="item.title"
+                >
+                    <Link :href="item.href">
+                        <component :is="item.icon" />
                         <span>{{ item.title }}</span>
                     </Link>
                 </SidebarMenuButton>

@@ -1,4 +1,5 @@
 import type { Auth } from '@/types/auth';
+import type { PageProps as InertiaPageProps } from '@inertiajs/core';
 
 // Extend ImportMeta interface for Vite...
 declare module 'vite/client' {
@@ -21,6 +22,13 @@ declare module '@inertiajs/core' {
             sidebarOpen: boolean;
             [key: string]: unknown;
         };
+    };
+
+    interface PageProps extends InertiaPageProps {
+        chats: {
+            id: string
+            title: string
+        }[];
     }
 }
 

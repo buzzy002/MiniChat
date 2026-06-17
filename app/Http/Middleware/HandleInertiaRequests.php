@@ -3,7 +3,9 @@
 namespace App\Http\Middleware;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Middleware;
+use App\Models\Chat;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -42,6 +44,9 @@ class HandleInertiaRequests extends Middleware
                 'user' => $request->user(),
             ],
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
+            'chats' => Auth::check()
+                ? Chat::where('user_id', Auth::id())->get()
+                : [],
         ];
     }
 }
