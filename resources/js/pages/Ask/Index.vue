@@ -1,8 +1,10 @@
 <script setup>
 import { useForm, Head } from '@inertiajs/vue3'
 import { ask, changeModel as changeModelRoute } from '@/actions/App/Http/Controllers/AskController'
-import MarkdownRenderer from '@/components/MarkdownRenderer.vue'
-
+import Message from '@/components/Message.vue'
+import { ref, onMounted } from 'vue'
+import DispatchLayout from '@/layouts/DispatchLayout.vue'
+defineOptions({ layout: DispatchLayout })
 
 const props = defineProps({
     models: Array,
@@ -12,13 +14,19 @@ const props = defineProps({
     error: String,
 })
 
+const textareaRef = ref(null)
+
 const form = useForm({
     message: props.message ?? '',
     model: props.selectedModel ?? '',
 })
 
 const submit = () => {
-    form.post(ask())
+    form.post(ask(), {
+        onSuccess: () => {
+            form.message = ''
+        }
+    })
 }
 
 const handleSubmitEnter = (e) => {
@@ -32,57 +40,50 @@ const handleChangeModel = () => {
     form.post(changeModelRoute())
 }
 
+onMounted(() => {
+  textareaRef.value.addEventListener('input', function() {
+    this.style.height = 'auto'
+    this.style.height = this.scrollHeight + 'px'
+  })
+})
 
 </script>
 
 <template>
+
     <Head title="Poser une question" />
 
-    <div class="bg-neutral-100 text-neutral-950">
-        <div class="flex flex-col gap-1 mx-2 w-fit ml-auto mr-3 my-2">
-            <label class="text-xs text-end font-medium uppercase tracking-widest text-neutral-950">
-                Model
-            </label>
-            <div class="relative">
-                <select v-model="form.model" @change="handleChangeModel"
-                class="appearance-none bg-white border border-neutral-200 rounded-lg px-4 py-2.5 pr-10 text-sm text-neutral-800 shadow-sm cursor-pointer transition focus:outline-none focus:ring-2 focus:ring-neutral-900 focus:border-transparent hover:border-neutral-400">
-                    <option disabled value="">Choose your model</option>
-                    <hr />
-                    <option v-for="model in props.models"
-                        :key="model.id"
-                        :value="model.id">
-                        {{ model.name }}
-                    </option>
-                </select>
-                <div class="pointer-events-none absolute inset-y-0 right-3 flex items-center">
-                    <svg class="w-4 h-4 text-neutral-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
-                    </svg>
-                </div>
-            </div>
-            </div>
-
-        <br />
-
-
-        <div class="mx-2 my-3">
-            <label for="UserQuestion">Your question</label>
-            <textarea v-model="form.message" class="w-full border-2 rounded-lg p-4"
-                placeholder="Type your question here..." @keypress.enter="handleSubmitEnter" />
-        </div>
-
-        <div class="flex justify-end mr-2">
-            <button @click="submit" class="bg-neutral-400 text-gray-950 p-2 rounded-lg">
-                Send
-            </button>
-        </div>
+    <div class="bg-cn-black text-zinc-300 p-3">
 
         <div class="px-3">
-            <MarkdownRenderer :content="props.response" />
+            <Message :content="props.response"  />
         </div>
+
+        <hr class="my-3"/>
+
+        <div class="grid grid-cols-12 gap-4 item-center">
+            <div class="bg-cn-surface-light text-zinc-300 col-span-8 border-2 border-cn-border rounded-lg hover:border-zinc-500 transition-colors duration-400">
+                <textarea v-model="form.message" rows="1" class="w-full font-mono resize-none overflow-hidden align-middle p-1 ps-2 focus:outline-none focus:ring-0 focus:border-transparent"
+                    placeholder="> Declare your contracts" @keypress.enter="handleSubmitEnter" ref="textareaRef" />
+            </div>
+
+            <div class="col-span-3 h-full">
+                <button class="cursor-pointer bg-cn-surface text-zinc-300 border border-cn-border p-2 rounded-lg w-full h-full hover:border-zinc-500 transition-colors duration-400">
+                    Display cycle
+                </button>
+            </div>
+
+            <div class="col-span-1 h-full">
+                <button @click="submit" class="cursor-pointer bg-cn-surface text-zinc-300 border font-bold border-cn-border p-2 rounded-lg w-full h-full hover:border-zinc-500 transition-colors duration-400">
+                    Send
+                </button>
+            </div>
+        </div>
+
 
         <div v-if="props.error" class="text-red-500 p-4 rounded bg-red-50">
             Erreur : {{ props.error }}
         </div>
     </div>
+
 </template>

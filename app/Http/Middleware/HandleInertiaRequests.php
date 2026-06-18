@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Middleware;
 use App\Models\Chat;
+use App\Services\SimpleAskService;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -47,6 +48,8 @@ class HandleInertiaRequests extends Middleware
             'chats' => Auth::check()
                 ? Chat::where('user_id', Auth::id())->get()
                 : [],
+            'models' => fn() => app(SimpleAskService::class)->getModels(),
+            'selectedModel' => fn() => Auth::user()->favorite_ai ?? SimpleAskService::DEFAULT_MODEL,
         ];
     }
 }

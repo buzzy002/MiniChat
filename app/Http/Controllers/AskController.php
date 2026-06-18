@@ -10,10 +10,7 @@ class AskController extends Controller {
     public function __construct(private SimpleAskService $askService) {}
 
     public function index() {
-        return Inertia::render('Ask/Index', [
-            'models' => $this->askService->getModels(),
-            'selectedModel' => auth()->user()->favorite_ai ?? $this->askService::DEFAULT_MODEL,
-        ]);
+        return Inertia::render('Ask/Index', []);
     }
 
     public function ask(Request $request) {
@@ -39,8 +36,6 @@ class AskController extends Controller {
         }
 
         return Inertia::render('Ask/Index', [
-            'models' => $this->askService->getModels(),
-            'selectedModel' => $request->model,
             'message' => $request->message,
             'response' => $response,
             'error' => $error,

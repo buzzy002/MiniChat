@@ -25,5 +25,5 @@ const rendered = computed(() => md.render(props.content ?? ''))
 </script>
 
 <template>
-    <div class="prose prose-neutral max-w-none" v-html="rendered" />
+    <div class="prose prose-invert prose-neutral max-w-none text-zinc-300" v-html="rendered" />
 </template>
