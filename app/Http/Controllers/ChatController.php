@@ -3,17 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Models\Chat;
+use App\Models\Message;
+use App\Services\SimpleAskService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class ChatController extends Controller
 {
-    public function __construct() {}
+    public function __construct(private SimpleAskService $askService) {}
 
-    public function index(string $chatID) {
+    public function index(string $chatId) {
         $chat = Chat::where('user_id', Auth::id())
-                ->where('id', $chatID)
+                ->where('id', $chatId)
                 ->with('messages')
                 ->firstOrFail();
 
@@ -21,5 +23,42 @@ class ChatController extends Controller
             'chat' => $chat,
             'messages' => $chat->messages()->oldest()->get(),
         ]);
+    }
+
+    public function ask(Request $request, string $chatId) {
+        $request->validate([
+            'message' => 'required|string',
+            'model' => 'required|string',
+        ]);
+
+        $response = null;
+        $error = null;
+        $question = [[
+            'role' => 'user',
+            'content' => $request->message,
+        ]];
+
+        Message::create([
+            'content' => $request->message,
+            'chat_id' => $chatId,
+            'role' => 'user',
+        ]);
+
+        try {
+            $response = $this->askService->sendMessage(
+                messages: $question,
+                model: $request->model,
+            );
+
+            Message::create([
+                'content' => $response,
+                'chat_id' => $chatId,
+                'role' => 'LLM',
+            ]);
+        } catch (\Exception $e) {
+            return back()->withErrors(['error' => $e->getMessage()]);
+        }
+
+        return back();
     }
 }

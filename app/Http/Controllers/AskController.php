@@ -61,7 +61,8 @@ class AskController extends Controller {
             ->with('messages')
             ->firstOrFail();
 
-        return redirect()->route('chat.index', $chat->id);
+        return redirect()->route('chat.index', $chat->id)
+            ->withErrors(['error' => $error]);
     }
 
     public function changeModel(Request $request) {
