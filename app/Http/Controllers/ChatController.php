@@ -13,16 +13,24 @@ class ChatController extends Controller
 {
     public function __construct(private SimpleAskService $askService) {}
 
-    public function index(string $chatId) {
+    public function show(string $chatId) {
         $chat = Chat::where('user_id', Auth::id())
-                ->where('id', $chatId)
-                ->with('messages')
-                ->firstOrFail();
+            ->where('id', $chatId)
+            ->with('messages')
+            ->firstOrFail();
 
         return Inertia::render("Chat/Index", [
             'chat' => $chat,
             'messages' => $chat->messages()->oldest()->get(),
         ]);
+    }
+
+    public function destroy(string $chatId) {
+        $chat = Chat::where('user_id', Auth::id())
+            ->where('id', $chatId)
+            ->firstOrFail();
+        $chat->delete();
+        return redirect()->route('ask.index');
     }
 
     public function ask(Request $request, string $chatId) {

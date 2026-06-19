@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Link, usePage } from '@inertiajs/vue3';
+import { Link, usePage, router } from '@inertiajs/vue3';
 import { computed } from 'vue'
 import {
     SidebarGroup,
@@ -8,6 +8,7 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
+import { Trash2 } from '@lucide/vue';
 import { useCurrentUrl } from '@/composables/useCurrentUrl';
 import type { NavItem } from '@/types';
 
@@ -18,6 +19,12 @@ defineProps<{
 const chats = computed(() => usePage().props.chats)
 
 const { isCurrentUrl } = useCurrentUrl();
+
+const deleteChat = (id: string) => {
+    if (confirm('Supprimer ce chat ?')) {
+        router.delete(`/chat/${id}`)
+    }
+}
 </script>
 
 <template>
@@ -25,13 +32,16 @@ const { isCurrentUrl } = useCurrentUrl();
         <SidebarGroupLabel>Chats</SidebarGroupLabel>
         <SidebarMenu>
             <SidebarMenuItem v-for="item in chats" :key="item.id">
-                <SidebarMenuButton
-                    as-child
-                    :tooltip="item.title">
-                    <Link :href="`/chat/${item.id}`">
-                        <span>{{ item.title }}</span>
+                <div class="group/item flex items-center rounded-md hover:bg-sidebar-accent px-2 py-1.5 w-full">
+                    <Link :href="`/chat/${item.id}`" class="flex-1 truncate text-sm">
+                        {{ item.title }}
                     </Link>
-                </SidebarMenuButton>
+                    <button
+                        @click="deleteChat(item.id)"
+                        class="opacity-0 group-hover/item:opacity-100 transition-opacity p-1 text-zinc-500 hover:text-cn-red shrink-0">
+                        <Trash2 :size="14" />
+                    </button>
+                </div>
             </SidebarMenuItem>
         </SidebarMenu>
     </SidebarGroup>
