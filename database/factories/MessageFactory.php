@@ -17,9 +17,14 @@ class MessageFactory extends Factory
      */
     public function definition(): array
     {
+        static $index = 0;
+        $roles = ['user', 'LLM'];
+        $role = $roles[$index % 2];
+        $index++;
+
         return [
-            'content' => $this->faker->paragraph(4),
-            'role' => $this->faker->randomElement(['LLM', 'user']),
+            'content' => $this->faker->paragraph(rand(1, 10), true),
+            'role' => $role,
             'chat_id'=> \App\Models\Chat::factory(),
         ];
     }

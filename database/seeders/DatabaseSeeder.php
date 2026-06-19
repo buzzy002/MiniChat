@@ -16,18 +16,22 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // User::factory(10)->create();
+        for($i = 0; $i < 2; $i++) {
+            $user = \App\Models\User::factory()->create([
+            'name' => "Test User $i",
+            'email' => "test+$i@example.com",
+            ]);
 
-        $user = \App\Models\User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+            for($j = 0; $j < 2; $j++) {
+                $chat = \App\Models\Chat::factory()->create([
+                'user_id' => $user->id,
+                ]);
 
-        $chat = \App\Models\Chat::factory()->create([
-            'user_id' => $user->id,
-        ]);
+                \App\Models\Message::factory(15)->create([
+                    'chat_id' => $chat->id,
+                ]);
+            }
 
-        \App\Models\Message::factory(5)->create([
-            'chat_id' => $chat->id,
-        ]);
+        }
     }
 }
