@@ -8,7 +8,7 @@ const props = defineProps({
 
 <template>
 
-    <div v-if="content != null">
+    <div v-if="content != null" class="flex flex-col w-full" :class="{'items-end': role === 'user'}">
         <div class="font-mono w-300">
             <div v-if="role === 'LLM'" class="uppercase text-yellow-400">//Dispatch</div>
             <div v-if="role === 'user'" class="uppercase text-cyan-400">//Operator</div>

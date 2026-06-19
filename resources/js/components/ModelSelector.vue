@@ -34,9 +34,9 @@ onUnmounted(() => document.removeEventListener('mousedown', handleClickOutside))
     <label class="text-xs text-cn-cyan uppercase tracking-widest">// model</label>
     <button
       @click="showModels = !showModels"
-      class="text-zinc-400 cursor-pointer border-b border-dashed border-zinc-600 hover:text-cn-cyan hover:border-cn-cyan transition-colors duration-300 text-xs tracking-wider"
+      class="text-zinc-400 cursor-pointer border-zinc-600  transition-colors duration-300 text-xs tracking-wider"
     >
-      DISPATCH - {{ modelValue }}
+      <span class="text-cn-yellow uppercase">Dispatch</span> - <span class="border-b border-dashed hover:text-cn-cyan hover:border-cn-cyan">{{ modelValue }}</span>
     </button>
 
     <div v-if="showModels" class="absolute top-full max-h-64 overflow-y-auto mt-2 bg-cn-surface border border-cn-border z-50 min-w-48">

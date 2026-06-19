@@ -21,16 +21,23 @@ const handleChangeModel = (modelId) => {
 <template>
     <AppShell variant="sidebar">
         <AppSidebar />
-        <AppContent variant="sidebar" class="overflow-x-hidden">
+        <AppContent variant="sidebar" class="overflow-x-hidden flex flex-col h-screen">
             <div class="bg-cn-black border-b border-cn-border px-4 py-3 flex items-center justify-between font-mono">
-                <div class="font-display font-bold tracking-widest text-lg text-cn-yellow">
-                CHRONO<span class="text-cn-cyan">//</span>NOIR
+                <div class="w-1/3 font-display font-bold tracking-widest text-lg text-cn-yellow">
+                    CHRONO<span class="text-cn-cyan">//</span>NOIR
                 </div>
-                <ModelSelector :models="models" :model-value="selectedModel" @change="handleChangeModel" />
-                <div class="text-xs text-zinc-600 tracking-widest">CYCLE 01</div>
-            </div>
 
-            <slot />
+                <div class="w-1/3 flex justify-center">
+                    <ModelSelector :models="models" :model-value="selectedModel" @change="handleChangeModel" />
+                </div>
+
+                <div class="w-1/3 flex justify-end text-xs text-zinc-600 tracking-widest">
+                    CYCLE 01
+                </div>
+            </div>
+            <div class="flex-1 overflow-y-auto">
+                <slot />
+            </div>
         </AppContent>
         <Toaster />
     </AppShell>

@@ -28,7 +28,7 @@ const { isCurrentUrl } = useCurrentUrl();
                 <SidebarMenuButton
                     as-child
                     :tooltip="item.title">
-                    <Link :href="`/chats/${item.id}`">
+                    <Link :href="`/chat/${item.id}`">
                         <span>{{ item.title }}</span>
                     </Link>
                 </SidebarMenuButton>

@@ -10,7 +10,7 @@ class AskController extends Controller {
     public function __construct(private SimpleAskService $askService) {}
 
     public function index() {
-        return Inertia::render('Ask/Index', []);
+        return Inertia::render('Ask/Index');
     }
 
     public function ask(Request $request) {
