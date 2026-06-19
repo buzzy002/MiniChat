@@ -1,7 +1,8 @@
 <script setup>
 import { Head, useForm } from '@inertiajs/vue3'
 import { ref, onMounted } from 'vue'
-import { ask, changeModel as changeModelRoute } from '@/actions/App/Http/Controllers/AskController';
+import { changeModel as changeModelRoute } from '@/actions/App/Http/Controllers/AskController';
+import { ask } from '@/actions/App/Http/Controllers/ChatController'
 import DispatchLayout from '@/layouts/DispatchLayout.vue';
 import Message from '@/components/Message.vue';
 
@@ -24,7 +25,7 @@ const form = useForm({
 })
 
 const submit = () => {
-    form.post(ask(), {
+    form.post(ask({ chatId: props.chat.id }), {
         onSuccess: () => {
             form.message = ''
         }
@@ -54,7 +55,7 @@ onMounted(() => {
 <Head :title="props.chat.title" />
 <div class="flex flex-col h-full bg-cn-black text-zinc-400 px-3">
 
-  <div class="sticky top-0 z-10 bg-cn-black border-b border-cn-border px-4 py-2 shrink-0">
+  <div class="bg-cn-black border-b border-cn-border px-4 py-2 shrink-0">
     <span class="font-mono text-xs text-zinc-400 tracking-widest uppercase">
       {{ props.chat.title }}
     </span>

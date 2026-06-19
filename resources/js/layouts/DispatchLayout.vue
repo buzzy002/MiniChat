@@ -19,26 +19,28 @@ const handleChangeModel = (modelId) => {
 </script>
 
 <template>
-    <AppShell variant="sidebar">
-        <AppSidebar />
-        <AppContent variant="sidebar" class="overflow-x-hidden flex flex-col h-screen">
-            <div class="bg-cn-black border-b border-cn-border px-4 py-3 flex items-center justify-between font-mono">
-                <div class="w-1/3 font-display font-bold tracking-widest text-lg text-cn-yellow">
-                    CHRONO<span class="text-cn-cyan">//</span>NOIR
-                </div>
+    <div class="h-screen overflow-hidden">
+        <AppShell variant="sidebar">
+            <AppSidebar />
+                <AppContent variant="sidebar" class="overflow-hidden flex flex-col h-screen">
+                    <div class="shrink-0 bg-cn-black border-b border-cn-border px-4 py-3 flex items-center justify-between font-mono">
+                        <div class="w-1/3 font-display font-bold tracking-widest text-lg text-cn-yellow">
+                        CHRONO<span class="text-cn-cyan">//</span>NOIR
+                        </div>
 
-                <div class="w-1/3 flex justify-center">
-                    <ModelSelector :models="models" :model-value="selectedModel" @change="handleChangeModel" />
-                </div>
+                        <div class="w-1/3 flex justify-center">
+                            <ModelSelector :models="models" :model-value="selectedModel" @change="handleChangeModel" />
+                        </div>
 
-                <div class="w-1/3 flex justify-end text-xs text-zinc-600 tracking-widest">
-                    CYCLE 01
-                </div>
-            </div>
-            <div class="flex-1 overflow-y-auto">
-                <slot />
-            </div>
-        </AppContent>
-        <Toaster />
-    </AppShell>
+                        <div class="w-1/3 flex justify-end text-xs text-zinc-600 tracking-widest">
+                            CYCLE 01
+                        </div>
+                    </div>
+                    <div class="flex-1 overflow-hidden">
+                        <slot />
+                    </div>
+                </AppContent>
+            <Toaster />
+        </AppShell>
+    </div>
 </template>
