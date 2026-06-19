@@ -32,7 +32,6 @@ class ChatController extends Controller
         ]);
 
         $response = null;
-        $error = null;
         $question = [[
             'role' => 'user',
             'content' => $request->message,
@@ -44,9 +43,18 @@ class ChatController extends Controller
             'role' => 'user',
         ]);
 
+        $history = Message::where('chat_id', $chatId)
+            ->oldest()
+            ->get()
+            ->map(fn($m) => [
+                'role' => $m->role === 'LLM' ? 'assistant' : 'user',
+                'content' => $m->content,
+            ])
+            ->toArray();
+
         try {
             $response = $this->askService->sendMessage(
-                messages: $question,
+                messages: $history,
                 model: $request->model,
             );
 

@@ -72,9 +72,13 @@ class SimpleAskService {
      *     }>|string
      * }> $messages
      */
-    public function sendMessage(array $messages, ?string $model = null, float $temperature = 1.0): string {
+    public function sendMessage(array $messages, ?string $model = null, ?string $systemPrompt = null,float $temperature = 1.0): string {
         $model = $model ?? self::DEFAULT_MODEL;
-        $messages = [$this->getSystemPrompt(), ...$messages];
+        $systemMessage = $systemPrompt
+            ? ['role' => 'system', 'content' => $systemPrompt]
+            : $this->getSystemPrompt();
+
+        $messages = [$systemMessage, ...$messages];
 
         $response = Http::withHeaders([
             'Authorization' => 'Bearer ' . $this->apiKey,

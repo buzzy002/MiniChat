@@ -52,8 +52,19 @@ class AskController extends Controller {
                 'chat_id' => $chat->id,
                 'role' => 'LLM',
             ]);
+
+            $title = $this->askService->sendMessage(
+                messages: [
+                    ['role' => 'user', 'content' => $request->message],
+                    ['role' => 'assistant', 'content' => $response],
+                ],
+                model: $request->model,
+                systemPrompt: 'Generate a short title (max 5 words) for this conversation. Return only the title, no punctuation, no explanation.'
+            );
+            $chat->update(['title' => trim($title)]);
         } catch (\Exception $e) {
-            $error = $e->getMessage();
+            logger('AskController error: ' . $e->getMessage());
+            return back()->withErrors(['error' => $e->getMessage()]);
         }
 
         $chat = Chat::where('user_id', Auth::id())
@@ -61,8 +72,7 @@ class AskController extends Controller {
             ->with('messages')
             ->firstOrFail();
 
-        return redirect()->route('chat.index', $chat->id)
-            ->withErrors(['error' => $error]);
+        return redirect()->route('chat.index', $chat->id);
     }
 
     public function changeModel(Request $request) {
