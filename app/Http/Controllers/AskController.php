@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Chat;
+use App\Models\Message;
 use Illuminate\Http\Request;
 use App\Services\SimpleAskService;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class AskController extends Controller {
@@ -21,25 +24,44 @@ class AskController extends Controller {
 
         $response = null;
         $error = null;
-        $message = [[
+        $question = [[
             'role' => 'user',
             'content' => $request->message,
         ]];
 
+        $chat = Chat::create([
+            'title' => 'test',
+            'user_id' => Auth::id(),
+            'favorite_ai' => $request->model,
+        ]);
+
+        Message::create([
+            'content' => $request->message,
+            'chat_id' => $chat->id,
+            'role' => 'user',
+        ]);
+
         try {
             $response = $this->askService->sendMessage(
-                messages: $message,
+                messages: $question,
                 model: $request->model
             );
+
+            Message::create([
+                'content' => $response,
+                'chat_id' => $chat->id,
+                'role' => 'LLM',
+            ]);
         } catch (\Exception $e) {
             $error = $e->getMessage();
         }
 
-        return Inertia::render('Ask/Index', [
-            'message' => $request->message,
-            'response' => $response,
-            'error' => $error,
-        ]);
+        $chat = Chat::where('user_id', Auth::id())
+            ->where('id', $chat->id)
+            ->with('messages')
+            ->firstOrFail();
+
+        return redirect()->route('chat.index', $chat->id);
     }
 
     public function changeModel(Request $request) {
