@@ -46,7 +46,7 @@ class HandleInertiaRequests extends Middleware
             ],
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
             'chats' => Auth::check()
-                ? Chat::where('user_id', Auth::id())->get()
+                ? Chat::where('user_id', Auth::id())->latest()->get()
                 : [],
             'models' => fn() => app(SimpleAskService::class)->getModels(),
             'selectedModel' => fn() => Auth::user()->favorite_ai ?? SimpleAskService::DEFAULT_MODEL,
