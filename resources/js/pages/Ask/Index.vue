@@ -67,15 +67,27 @@ onMounted(() => {
                     placeholder="> Declare your contracts" @keypress.enter="handleSubmitEnter" ref="textareaRef" />
             </div>
 
-            <div class="col-span-3 h-full">
+            <div class="col-span-2 h-full">
                 <button class="cursor-pointer bg-cn-surface text-zinc-300 border border-cn-border p-2 rounded-lg w-full h-full hover:border-zinc-500 transition-colors duration-400">
                     Display cycle
                 </button>
             </div>
 
-            <div class="col-span-1 h-full">
-                <button @click="submit" class="cursor-pointer bg-cn-surface text-zinc-300 border font-bold border-cn-border p-2 rounded-lg w-full h-full hover:border-zinc-500 transition-colors duration-400">
-                    Send
+            <div class="col-span-2 h-full">
+                <button @click="submit" :disabled="form.processing" :class="{ 'cursor-pointer': !form.processing }"
+                    class="bg-cn-yellow text-black border font-bold border-cn-border flex items-center justify-center
+                        p-2 rounded-lg w-full h-full clip-top-left-corner
+                        hover:border-zinc-500 transition-colors duration-400
+                        disabled:cursor-not-allowed disabled:opacity-50">
+                    <span v-if="form.processing" class="flex items-center justify-center gap-1">
+                        <svg class="animate-spin h-4 w-4 mx-auto" viewBox="0 0 24 24" fill="none">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
+                        </svg>
+                        Sending
+                    </span>
+
+                    <span v-else>Send</span>
                 </button>
             </div>
         </div>
