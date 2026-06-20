@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 
 /**
@@ -108,14 +109,14 @@ class SimpleAskService {
      * @return array{role: 'system', content: string}
      */
     private function getSystemPrompt(): array {
-        $user = auth()->user();
+        $user = Auth::user();
         $now = now()->locale('fr')->format('l d F Y H:i');
 
         return [
             'role' => 'system',
             'content' => view('prompts.system', [
                 'now' => $now,
-                'user' => $user?->name ?? 'l\'utilisateur',
+                'user' => $user,
             ])->render(),
         ];
     }

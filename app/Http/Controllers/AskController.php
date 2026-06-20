@@ -72,7 +72,7 @@ class AskController extends Controller {
             ->with('messages')
             ->firstOrFail();
 
-        return redirect()->route('chat.index', $chat->id);
+        return redirect()->route('chat.show', $chat->id);
     }
 
     public function changeModel(Request $request) {

@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AskController;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\ProtocolsController;
+use App\Http\Controllers\UserController;
 
 Route::inertia('/', 'Welcome')->name('home');
 
@@ -16,7 +18,9 @@ Route::post('/user/model', [AskController::class, 'changeModel'])->name('ask.cha
 
 Route::get("/chat/{chatId}", [ChatController::class, 'show'])->name('chat.show');
 Route::post('/chat/{chatId}/ask', [ChatController::class, 'ask'])->name('chat.ask');
-
 Route::delete('/chat/{chatId}', [ChatController::class, 'destroy'])->name('chat.destroy');
+
+Route::get('protocols', [ProtocolsController::class, 'index'])->name('protocols.index');
+Route::post('protocols', [ProtocolsController::class, 'save'])->name('protocols.save');
 
 require __DIR__.'/settings.php';
