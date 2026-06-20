@@ -74,7 +74,7 @@ const submit = () => {
         </div>
 
         <!-- Tabs -->
-        <div class="flex gap-0 bg-cn-surface border border-cn-border rounded-md p-1 w-fit mb-6">
+        <div class="flex gap-2 bg-cn-surface border border-cn-border rounded-md p-1 w-fit mb-6">
             <button
                 v-for="tab in tabs"
                 :key="tab.key"
