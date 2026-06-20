@@ -33,7 +33,7 @@ const deleteChat = (id: string) => {
         <SidebarMenu>
             <SidebarMenuItem v-for="item in chats" :key="item.id">
                 <div class="group/item flex items-center rounded-md hover:bg-sidebar-accent px-2 py-1.5 w-full">
-                    <Link :href="`/chat/${item.id}`" class="flex-1 truncate text-sm">
+                    <Link :href="`/chat/${item.id}`" class="flex-1 truncate text-sm" :class="{ 'text-cn-yellow font-bold': isCurrentUrl(`/chat/${item.id}`) }">
                         {{ item.title }}
                     </Link>
                     <button
