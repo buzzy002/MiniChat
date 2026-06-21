@@ -135,18 +135,13 @@ watch(streamedContent, (val) => {
 
         <div class="shrink-0 border-t border-cn-border p-5">
             <div class="grid grid-cols-12 gap-4 items-center">
-                <div class="bg-cn-surface-light text-zinc-300 col-span-8 border-2 border-cn-border rounded-lg hover:border-zinc-500 transition-colors duration-400">
+                <div class="bg-cn-surface-light text-zinc-300 col-span-10 border-2 border-cn-border rounded-lg hover:border-zinc-500 transition-colors duration-400">
                     <textarea v-model="form.message" rows="1"
                         class="w-full font-mono resize-none overflow-hidden align-middle p-1 ps-2 focus:outline-none focus:ring-0 focus:border-transparent bg-transparent"
                         placeholder="> Declare your contracts"
                         @keypress.enter="handleSubmitEnter"
                         :disabled="isWaiting"
                         ref="textareaRef" />
-                </div>
-                <div class="col-span-2 h-full">
-                    <button class="cursor-pointer bg-cn-surface text-zinc-300 border border-cn-border p-2 rounded-lg w-full h-full hover:border-zinc-500 transition-colors duration-400">
-                        Display cycle
-                    </button>
                 </div>
                 <div class="col-span-2 h-full">
                     <button @click="submit"
