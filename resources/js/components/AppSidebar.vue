@@ -36,14 +36,14 @@ const mainNavItems: NavItem[] = [
             <SidebarMenu>
                 <SidebarMenuItem>
                     <SidebarMenuButton as-child>
-                        <Link :href="`/ask`" class="font-mono text-xs tracking-widest flex items-center gap-2">
+                        <Link :href="`/ask`" class="font-mono tracking-widest">
                             <span><span class="text-cn-yellow">// </span>NEW CONTRACT</span>
                         </Link>
                     </SidebarMenuButton>
                 </SidebarMenuItem>
                 <SidebarMenuItem>
                     <SidebarMenuButton as-child>
-                        <Link href="/protocols" class="font-mono text-xs tracking-widest">
+                        <Link href="/protocols" class="font-mono tracking-widest">
                             <span class="text-cn-cyan">// </span>PROTOCOLS
                         </Link>
                     </SidebarMenuButton>
