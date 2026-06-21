@@ -75,12 +75,9 @@ onMounted(() => {
             behavior: 'instant'
         })
     })
-
-    console.log('pending:', props.pending)
 })
 
 watch(() => props.pending, (val) => {
-    console.log('watch pending:', val)
     if (val) startStream()
 }, { immediate: true })
 
@@ -99,12 +96,6 @@ watch(() => props.messages, async () => {
         behavior: 'smooth'
     })
 }, { deep: true })
-
-watch(streamedContent, (val) => {
-    if (val?.includes('[DONE]')) {
-        router.reload({ only: ['messages', 'pending', 'chat', 'chats'] })
-    }
-})
 </script>
 
 <template>
