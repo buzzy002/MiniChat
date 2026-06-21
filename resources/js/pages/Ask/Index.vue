@@ -67,7 +67,7 @@ onMounted(() => {
                 // ERROR: {{ props.error }}
             </div>
             <div class="grid grid-cols-12 gap-4 items-center">
-                <div class="bg-cn-surface text-zinc-300 col-span-10 border-2 border-cn-border rounded-lg hover:border-zinc-500 transition-colors duration-400">
+                <div class="bg-cn-surface-light text-zinc-300 col-span-10 border-2 border-cn-border rounded-lg hover:border-zinc-500 transition-colors duration-400">
                     <textarea
                         v-model="form.message"
                         rows="1"

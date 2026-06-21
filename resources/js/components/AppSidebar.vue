@@ -28,13 +28,19 @@ const mainNavItems: NavItem[] = [
 
 <template>
     <Sidebar collapsible="icon" variant="inset">
-
         <SidebarContent>
             <NavMain :items="mainNavItems" />
         </SidebarContent>
 
         <SidebarFooter>
             <SidebarMenu>
+                <SidebarMenuItem>
+                    <SidebarMenuButton as-child>
+                        <Link :href="`/ask`" class="font-mono text-xs tracking-widest flex items-center gap-2">
+                            <span><span class="text-cn-yellow">// </span>NEW CONTRACT</span>
+                        </Link>
+                    </SidebarMenuButton>
+                </SidebarMenuItem>
                 <SidebarMenuItem>
                     <SidebarMenuButton as-child>
                         <Link href="/protocols" class="font-mono text-xs tracking-widest">
