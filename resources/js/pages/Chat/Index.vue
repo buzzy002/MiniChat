@@ -8,7 +8,6 @@ import Message from '@/components/Message.vue';
 
 defineOptions({
     layout: DispatchLayout,
-    ssr: false,
 })
 
 const props = defineProps({

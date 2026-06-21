@@ -5,8 +5,13 @@ use App\Http\Controllers\AskController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\ProtocolsController;
 use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Auth;
 
-Route::inertia('/', 'Welcome')->name('home');
+Route::get('/', function () {
+    return Auth::check()
+        ? redirect()->route('ask.index')
+        : redirect()->route('login');
+});
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::inertia('dashboard', 'Dashboard')->name('dashboard');
