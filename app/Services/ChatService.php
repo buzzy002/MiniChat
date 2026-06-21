@@ -19,6 +19,14 @@ class ChatService
         ]);
     }
 
+    public function saveLLMMessage(string $chatId, string $content) {
+        return Message::create([
+            'content' => $content,
+            'chat_id' => $chatId,
+            'role' => 'LLM',
+        ]);
+    }
+
     public function buildHistory(string $chatId) {
         return Message::where('chat_id', $chatId)
             ->oldest()
@@ -35,12 +43,7 @@ class ChatService
             messages: $history,
             model: $model,
         );
-
-        Message::create([
-            'content' => $response,
-            'chat_id' => $chatId,
-            'role' => 'LLM',
-        ]);
+        $this->saveLLMMessage($chatId, $response);
     }
 
     public function generateTitle(string $chatId, string $model) {

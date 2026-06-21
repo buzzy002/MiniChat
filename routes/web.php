@@ -18,6 +18,7 @@ Route::post('/user/model', [AskController::class, 'changeModel'])->name('ask.cha
 
 Route::get("/chat/{chatId}", [ChatController::class, 'show'])->name('chat.show');
 Route::post('/chat/{chatId}/ask', [ChatController::class, 'ask'])->name('chat.ask');
+Route::post('/chat/{chatId}/stream', [ChatController::class, 'stream'])->name('chat.stream');
 Route::delete('/chat/{chatId}', [ChatController::class, 'destroy'])->name('chat.destroy');
 
 Route::get('protocols', [ProtocolsController::class, 'index'])->name('protocols.index');

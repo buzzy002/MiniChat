@@ -29,10 +29,6 @@ class AskController extends Controller {
 
         try {
             $this->chatService->saveUserMessage($chat->id, $request->message);
-            $history = $this->chatService->buildHistory($chat->id);
-            $this->chatService->sendAndSave($chat->id, $history, $request->model);
-            $title = $this->chatService->generateTitle($chat->id, $request->model);
-            $chat->update(['title' => $title]);
         } catch (\Exception $e) {
             logger('AskController error: ' . $e->getMessage());
             return back()->withErrors(['error' => $e->getMessage()]);
